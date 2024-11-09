@@ -38,13 +38,13 @@ export class BookController {
 
     // Met à jour le livre correspondant à l'id en fonction des paramètres passés
     @Patch(":id")
-    public async updateBook(@Param('id') id : BookId, @Body() data : UpdateBookDto) : Promise<string> {
-        return this.bookService.updateBook(id,data);
+    public async updateBook(@Param('id') id : BookId, @Body() data : UpdateBookDto) : Promise<void> {
+        this.bookService.updateBook(id,data);
     }
 
     // Supprime le livre associé à l'id donné
     @Delete(':id')
-    public async deleteBook(@Param('id') id : BookId) : Promise<string> {
-        return this.bookService.deleteBook(id);
+    public async deleteBook(@Param('id') id : BookId) : Promise<void> {
+        this.bookService.deleteBook(id);
     }
 }

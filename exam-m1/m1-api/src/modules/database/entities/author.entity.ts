@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BookEntity } from './book.entity';
 
 @Entity('authors')
 export class AuthorEntity extends BaseEntity {
@@ -13,4 +14,7 @@ export class AuthorEntity extends BaseEntity {
 
   @Column({name:' path_image', type: 'varchar'})
   path: string; 
+
+  @OneToMany(() => BookEntity, (book) => book.author, { nullable: true })
+  books: BookEntity[];
 }

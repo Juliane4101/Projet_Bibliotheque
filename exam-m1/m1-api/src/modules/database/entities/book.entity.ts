@@ -15,6 +15,6 @@ export class BookEntity extends BaseEntity {
   yearPublished: number;
 
   @ManyToOne(() => AuthorEntity, {nullable:true})
-  @JoinColumn({ name : 'id'})
+  @JoinColumn({ name : 'author_id'})
   author : AuthorEntity
 }

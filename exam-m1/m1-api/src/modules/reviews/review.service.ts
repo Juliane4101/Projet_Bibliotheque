@@ -8,8 +8,10 @@ export class ReviewService {
   constructor(private readonly reviewRepository: ReviewRepository) {}
 
   createReview(bookId: number, reviewDto: ReviewDTO): ReviewModel {
-    const { comment, rating } = reviewDto;
-    return this.reviewRepository.createReview(bookId, comment, rating);
+    const { comment, rating, date } = reviewDto;
+    const reviewDate = date ? new Date(date) : new Date(); 
+
+    return this.reviewRepository.createReview(bookId, comment, rating, reviewDate);
   }
 
   getReviewsByBook(bookId: number): ReviewModel[] {

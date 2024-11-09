@@ -7,6 +7,7 @@ export class CreateAuthorDto{
     Prenom : string;
     @IsString()
     Biographie : string;
+    
     //manque liste de livre et photo
     
 }

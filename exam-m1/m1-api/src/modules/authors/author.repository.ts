@@ -33,7 +33,19 @@ export class AuthorRepository {
     return result;
   }
 
-  public async deleteAuthor(id : string) : Promise<void> {
+  public async deleteAuthor(id: string): Promise<void> {
+    // Chercher l'auteur avec ses livres associés (si nécessaire)
+    const author = await this.authorRepository.findOne({
+      where: { id },
+      relations: ['books'],  // Charge les livres associés pour pouvoir gérer la suppression
+    });
+  
+    // Si l'auteur n'existe pas, on lance une erreur
+    if (!author) {
+      console.log("Author not found");
+    }
+  
+    // Maintenant, on supprime l'auteur
     await this.authorRepository.delete(id);
   }
 

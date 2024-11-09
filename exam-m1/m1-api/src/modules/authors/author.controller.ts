@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post,Delete,Param } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './author.dto';
 import { AuthorPresenter } from './author.presenter';
+import { AuthorId } from '../database/entities/author.entity';
 
 @Controller('/authors')
 export class AuthorController {
@@ -22,4 +23,9 @@ export class AuthorController {
 
     return AuthorPresenter.from(author);
   }
+
+  @Delete(':id')
+    public async deleteBook(@Param('id') id : AuthorId) : Promise<void> {
+        this.authorService.deleteAuthor(id);
+    }
 }

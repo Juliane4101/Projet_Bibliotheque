@@ -1,10 +1,12 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BookEntity } from './book.entity';
 
+export type AuthorId = string & { __brand: 'Author' };
+
 @Entity('authors')
 export class AuthorEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: AuthorId;
 
   @Column({ name: 'first_name', type: 'varchar' })
   firstName: string;

@@ -17,6 +17,13 @@ export class AuthorRepository {
     });
   }
 
+  public async findAuthorById(id: string): Promise<AuthorModel | null> {
+    return this.authorRepository.findOne({
+      where: { id },
+      relations: ['books'], // Charger les livres associés, si nécessaire
+    });
+  }
+
   // Create a new author
   public async createAuthor(input: CreateAuthorModel): Promise<AuthorModel> {
     const result = await this.authorRepository.save(

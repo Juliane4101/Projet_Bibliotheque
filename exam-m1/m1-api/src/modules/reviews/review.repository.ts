@@ -1,20 +1,44 @@
+import { Repository } from 'typeorm';
+import { ReviewEntity } from '../database/entities/review.entity';
+import { BookEntity } from '../database/entities/book.entity';
 import { Injectable } from '@nestjs/common';
-import { ReviewModel } from './review.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ReviewDTO } from './review.dto';
 
 @Injectable()
 export class ReviewRepository {
-  private reviews: ReviewModel[] = [];
-  private idCounter = 1;
+  constructor(
+    @InjectRepository(ReviewEntity)
+    private readonly reviewRepository: Repository<ReviewEntity>,
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
+  ) {}
 
-  createReview(bookId: number, comment: string, rating: number, date: Date): ReviewModel {
-    const reviewDate = date ? new Date(date) : new Date();
-    const formattedDate = reviewDate.toISOString().split('T')[0]; 
-    const review = new ReviewModel(this.idCounter++, comment, rating, bookId, formattedDate);
-    this.reviews.push(review);
-    return review;
+  // Créer un avis pour un livre
+  async createReview(bookId: string, reviewDto: ReviewDTO): Promise<ReviewEntity> {
+    const { comment, rating, date } = reviewDto;
+
+    
+    const book = await this.bookRepository.findOne({ where: { id: bookId } });
+
+    if (!book) {
+      throw new Error('Book not found');
+    }
+
+    // Créer un nouvel avis
+    const review = this.reviewRepository.create({
+      comment,
+      rating,
+      date,
+      book,
+    });
+
+    // Sauvegarder
+    return this.reviewRepository.save(review);
   }
 
-  findReviewsByBook(bookId: number): ReviewModel[] {
-    return this.reviews.filter(review => review.bookId === bookId);
+  // Récupérer les avis d'un livre
+  async findReviewsByBook(bookId: string): Promise<ReviewEntity[]> {
+    return this.reviewRepository.find({ where: { book: { id: bookId } } });
   }
 }

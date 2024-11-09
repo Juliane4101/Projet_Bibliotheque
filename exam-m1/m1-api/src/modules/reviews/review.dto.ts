@@ -1,6 +1,6 @@
 export class ReviewDTO {
-    comment: string;
-    rating: number;
-    date: string;
-  }
-  
+  comment: string;
+  rating: number;
+  date: string;
+  bookId?: string;  
+}

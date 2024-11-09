@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { AuthorEntity } from './author.entity';
+import { ReviewEntity } from './review.entity';
 
 @Entity('books')
 export class BookEntity extends BaseEntity {
@@ -15,4 +16,7 @@ export class BookEntity extends BaseEntity {
   @ManyToOne(() => AuthorEntity, {nullable:true})
   @JoinColumn({ name : 'author_id'})
   author : AuthorEntity
+
+  @OneToMany(() => ReviewEntity, (review) => review.book)
+  reviews: ReviewEntity[];
 }

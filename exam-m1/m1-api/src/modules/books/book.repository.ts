@@ -29,8 +29,7 @@ export class BookRepository {
 
     public async createBook(book : CreateBookDto):Promise<BookModel> {
         // On va commencer par chercher l'auteur de ce livre dans la DB
-        const author = await this.authorRepository.findOneOrFail({where : {id :book.authorId}})
-        console.log(author)
+        const author = await this.authorRepository.findOne({where : {id :book.authorId}})
         // Maintenant on peut créer une nouvelle entrée d'un livre et la sauvegarder
         const newBook = this.bookRepository.create({
             title : book.title,

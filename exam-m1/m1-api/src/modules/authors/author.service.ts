@@ -18,4 +18,8 @@ export class AuthorService {
     this.authorRepository.deleteAuthor(id);
   }
 
+  public async getAuthorById(id: string): Promise<AuthorModel | null> {
+    return this.authorRepository.findAuthorById(id);
+  }
+
 }

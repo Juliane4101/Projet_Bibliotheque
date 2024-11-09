@@ -28,4 +28,10 @@ export class AuthorController {
     public async deleteBook(@Param('id') id : string) : Promise<void> {
         this.authorService.deleteAuthor(id);
     }
+
+    @Get(':id')
+    public async getAuthorById(@Param('id') id: string): Promise<AuthorPresenter | null> {
+      const author = await this.authorService.getAuthorById(id);
+      return author ? AuthorPresenter.from(author) : null;
+    }
 }

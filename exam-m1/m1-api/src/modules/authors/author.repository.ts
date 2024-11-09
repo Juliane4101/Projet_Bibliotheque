@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { AuthorEntity,AuthorId} from '../database/entities/author.entity';
-import { BookEntity} from '../database/entities/book.entity'; // Import the BookEntity
+import { AuthorEntity} from '../database/entities/author.entity';
 import { AuthorModel, CreateAuthorModel } from './author.model';
 
 @Injectable()
@@ -26,12 +25,7 @@ export class AuthorRepository {
     return result;
   }
 
-  // Helper method to fetch books by IDs
-  public async findBooksByIds(AuthorId: string[]): Promise<BookEntity[]> {
-    return this.dataSource.getRepository(BookEntity).findByIds(AuthorId);
-  }
-
-  public async deleteAuthor(id : AuthorId) : Promise<void> {
+  public async deleteAuthor(id : string) : Promise<void> {
     await this.authorRepository.delete(id);
   }
 }

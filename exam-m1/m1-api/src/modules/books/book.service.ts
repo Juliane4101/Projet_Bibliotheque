@@ -2,8 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
 import { BookModel } from "./book.model";
 import { BookRepository } from "./book.repository";
-import { BookId } from "../database/entities/book.entity";
-
 
 @Injectable()
 export class BookService {

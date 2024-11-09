@@ -1,13 +1,4 @@
-import { Type } from "class-transformer";
-import { IsDate, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
-
-// Auteur lié au livre
-export declare class CreateBookAuthorDto {
-    @IsString()
-    firstName: string;
-    @IsString()
-    lastName: string;
-}
+import {IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 // Création d'un livre
 export declare class CreateBookDto {

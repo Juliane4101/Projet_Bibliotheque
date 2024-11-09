@@ -4,6 +4,7 @@ export class ReviewModel {
       public comment: string,
       public rating: number,
       public bookId: number, 
+      public date: string,
     ) {}
   }
   

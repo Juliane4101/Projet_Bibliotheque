@@ -16,6 +16,10 @@ export class ReviewController {
 
   @Get(':bookId')
   getReviewsByBook(@Param('bookId') bookId: number) {
-    return this.reviewService.getReviewsByBook(bookId);
+    const reviews = this.reviewService.getReviewsByBook(bookId);
+    return reviews.map(review => {
+      review.date = review.date.split('T')[0];  
+      return review;
+    });
   }
 }

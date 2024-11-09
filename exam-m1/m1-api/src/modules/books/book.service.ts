@@ -17,15 +17,15 @@ export class BookService {
         return this.bookRepository.getBookById(id);
     }
 
-    public createBook(book : CreateBookDto):string {
+    public createBook(book : CreateBookDto):Promise<BookModel> {
         return this.bookRepository.createBook(book);
     }
 
-    public updateBook(id : BookId, book : UpdateBookDto):string {
-        return this.bookRepository.updateBook(id,book);
+    public updateBook(id : BookId, book : UpdateBookDto):void {
+        this.bookRepository.updateBook(id,book);
     }
 
-    public deleteBook(id : BookId) : string {
-        return this.bookRepository.deleteBook(id);
+    public deleteBook(id : BookId) : void {
+        this.bookRepository.deleteBook(id);
     }
 }

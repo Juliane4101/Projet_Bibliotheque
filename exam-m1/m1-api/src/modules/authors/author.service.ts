@@ -12,7 +12,7 @@ export class AuthorService {
         return "Get Author "+id;
     }
 
-    public createAuthor(book : CreateAuthorDto):string {
+    public createAuthor(author : CreateAuthorDto):string {
         return "Author created";
     }
 }

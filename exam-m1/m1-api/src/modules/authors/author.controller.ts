@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post,Delete,Param } from '@nestjs/common';
+import { Body, Controller, Get, Post,Delete,Param,Patch} from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './author.dto';
 import { AuthorPresenter } from './author.presenter';
@@ -34,4 +34,13 @@ export class AuthorController {
       const author = await this.authorService.getAuthorById(id);
       return author ? AuthorPresenter.from(author) : null;
     }
+
+    @Patch(':id')
+  public async updateAuthor(
+    @Param('id') id: string,
+    @Body() updateData: CreateAuthorDto,
+  ) {
+    return this.authorService.updateAuthor(id, updateData);
+  }
+
 }

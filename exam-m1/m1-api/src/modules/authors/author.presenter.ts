@@ -7,6 +7,8 @@ export class AuthorPresenter {
 
   lastName: string;
 
+  biography: string;
+
   private constructor(author: AuthorPresenter) {
     Object.assign(this, author);
   }
@@ -16,6 +18,7 @@ export class AuthorPresenter {
       id: author.id,
       firstName: author.firstName,
       lastName: author.lastName,
+      biography: author.biography
     });
   }
 }

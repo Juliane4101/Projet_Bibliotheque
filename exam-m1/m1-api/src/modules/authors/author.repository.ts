@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { AuthorEntity } from '../database/author.entity'
+import { AuthorEntity } from '../database/entities/author.entity'
 import { Injectable } from '@nestjs/common';
 import { AuthorModel, CreateAuthorModel } from './author.model';
 

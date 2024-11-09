@@ -13,7 +13,7 @@ export class BookService {
         return this.bookRepository.getBooks();
     }
 
-    public async getBookById(id : BookId):Promise<BookModel|undefined> {
+    public async getBookById(id : string):Promise<BookModel|undefined> {
         return this.bookRepository.getBookById(id);
     }
 
@@ -21,11 +21,11 @@ export class BookService {
         return this.bookRepository.createBook(book);
     }
 
-    public updateBook(id : BookId, book : UpdateBookDto):void {
+    public updateBook(id : string, book : UpdateBookDto):void {
         this.bookRepository.updateBook(id,book);
     }
 
-    public deleteBook(id : BookId) : void {
+    public deleteBook(id : string) : void {
         this.bookRepository.deleteBook(id);
     }
 }

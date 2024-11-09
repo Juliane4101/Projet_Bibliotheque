@@ -20,7 +20,7 @@ export class BookRepository {
     }
 
     // On va chercher le livre ayant l'id passé en paramètre
-    public async getBookById(id : BookId):Promise<BookModel|undefined> {
+    public async getBookById(id : string):Promise<BookModel|undefined> {
         return this.bookRepository.findOneOrFail({
             where : {id}, 
             relations : {author : true}
@@ -41,11 +41,11 @@ export class BookRepository {
         return returnedBook;
     }
 
-    public async updateBook(id : BookId, newData : UpdateBookDto):Promise<void> {
+    public async updateBook(id : string, newData : UpdateBookDto):Promise<void> {
         await this.bookRepository.update(id,newData)
     }
 
-    public async deleteBook(id : BookId) : Promise<void> {
+    public async deleteBook(id : string) : Promise<void> {
         await this.bookRepository.delete(id);
     }
 }

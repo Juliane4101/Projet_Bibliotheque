@@ -37,7 +37,6 @@ export declare class UpdateBookDto {
     @IsInt()
     @IsOptional()
     yearPublished: number;
-    @Type(() => CreateBookAuthorDto)
-    @IsOptional()
-    author: CreateBookAuthorDto;
+    @IsString()
+    authorId: string;
 }

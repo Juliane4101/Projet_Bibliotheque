@@ -1,8 +1,30 @@
 'use client';
 import './App.css';
 
-function App() {
-  return <h1>Hello World!</h1>
+// HomePage.js
+import React, { useEffect, useState } from 'react';
+import {BookRepository} from '../../../m1-api/src/modules/books/book.repository';
+
+
+function HomePage() {
+  const [books, getBooks] = useState([]);
+
+  useEffect(() => {
+    // Appel à l'API pour obtenir la liste des livres depuis NestJS
+    fetch('http://localhost:3001/books')
+      .then(response => response.json())
+      .then(data => getBooks(data));
+  }, []);
+
+  return (
+    <div>
+      <h1>Bienvenue à la Bibliothèque</h1>
+     
+      {/* <BookRepository books={books} /> */}
+    </div>
+  );
 }
 
-export default App;
+export default HomePage;
+
+

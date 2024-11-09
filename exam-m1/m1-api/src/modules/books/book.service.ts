@@ -1,27 +1,30 @@
 import { Injectable } from "@nestjs/common";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
 import { BookModel } from "./book.model";
+import { BookRepository } from "./book.repository";
 
 
 @Injectable()
 export class BookService {
+    constructor(private readonly bookRepository: BookRepository) {}
+
     public getBooks():BookModel[] {
-        return [];
+        return this.bookRepository.getBooks();
     }
 
     public getBookById(id : string):BookModel|undefined {
-        return undefined;
+        return this.bookRepository.getBookById(id);
     }
 
     public createBook(book : CreateBookDto):string {
-        return "Book created";
+        return this.bookRepository.createBook(book);
     }
 
-    public updateBook(id : string, data : UpdateBookDto):string {
-        return "Book updated";
+    public updateBook(id : string, book : UpdateBookDto):string {
+        return this.bookRepository.updateBook(id,book);
     }
 
     public deleteBook(id : string) : string {
-        return "Book deleted";
+        return this.bookRepository.deleteBook(id);
     }
 }

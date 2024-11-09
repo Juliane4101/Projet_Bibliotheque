@@ -1,19 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { CreateAuthorDto } from "./author.dto";
-
+import { Injectable } from '@nestjs/common';
+import { AuthorModel, CreateAuthorModel } from './author.model';
+import { AuthorRepository } from './author.repository';
 
 @Injectable()
 export class AuthorService {
-    public getAuthors():string {
-        return "Ceci est un test";
-    }
+  constructor(private readonly authorRepository: AuthorRepository) {}
 
-    public getAuthorById(id : string):string {
-        return "Get Author "+id;
-    }
+  public async listAuthors(): Promise<AuthorModel[]> {
+    return this.authorRepository.listAuthors();
+  }
 
-    public createAuthor(author : CreateAuthorDto):string {
-        return "Author created";
-    }
-    
+  public async createAuthor(input: CreateAuthorModel): Promise<AuthorModel> {
+    return this.authorRepository.createAuthor(input);
+  }
 }

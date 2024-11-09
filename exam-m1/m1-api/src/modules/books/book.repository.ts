@@ -28,9 +28,8 @@ export class BookRepository {
     }
 
     public async createBook(book : CreateBookDto):Promise<BookModel> {
-        console.log(book)
         // On va commencer par chercher l'auteur de ce livre dans la DB
-        const author = await this.authorRepository.findOne({where : {id :book.authorId}})
+        const author = await this.authorRepository.findOneOrFail({where : {id :book.authorId}})
         console.log(author)
         // Maintenant on peut créer une nouvelle entrée d'un livre et la sauvegarder
         const newBook = this.bookRepository.create({
@@ -43,11 +42,11 @@ export class BookRepository {
         return returnedBook;
     }
 
-    public updateBook(id : BookId, data : UpdateBookDto):string {
-        return "Book updated";
+    public async updateBook(id : BookId, newData : UpdateBookDto):Promise<void> {
+        await this.bookRepository.update(id,newData)
     }
 
-    public deleteBook(id : BookId) : string {
-        return "Book deleted";
+    public async deleteBook(id : BookId) : Promise<void> {
+        await this.bookRepository.delete(id);
     }
 }

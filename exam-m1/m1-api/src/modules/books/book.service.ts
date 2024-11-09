@@ -17,7 +17,7 @@ export class BookService {
         return this.bookRepository.getBookById(id);
     }
 
-    public createBook(book : CreateBookDto):string {
+    public createBook(book : CreateBookDto):Promise<BookModel> {
         return this.bookRepository.createBook(book);
     }
 

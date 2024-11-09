@@ -3,25 +3,44 @@ import { BookModel } from "./book.model";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
 import { DataSource } from "typeorm";
 import { BookEntity, BookId } from "../database/entities/book.entity";
+import { AuthorEntity } from "../database/entities/author.entity";
 
 @Injectable()
 export class BookRepository {
     private readonly bookRepository = this.dataSource.getRepository(BookEntity)
+    private readonly authorRepository = this.dataSource.getRepository(AuthorEntity)
 
     constructor(private readonly dataSource : DataSource){};
 
     // On va chercher et renvoyer tous les livres de la BD
     public async getBooks():Promise<BookModel[]>{
-        return this.bookRepository.find({relations : {author : true}});
+        return this.bookRepository.find({
+            relations : {author : true}
+        });
     }
 
     // On va chercher le livre ayant l'id passé en paramètre
     public async getBookById(id : BookId):Promise<BookModel|undefined> {
-        return await this.bookRepository.findOneOrFail({where : {id}});
+        return this.bookRepository.findOneOrFail({
+            where : {id}, 
+            relations : {author : true}
+        });
     }
 
-    public createBook(book : CreateBookDto):string {
-        return "Book created";
+    public async createBook(book : CreateBookDto):Promise<BookModel> {
+        console.log(book)
+        // On va commencer par chercher l'auteur de ce livre dans la DB
+        const author = await this.authorRepository.findOne({where : {id :book.authorId}})
+        console.log(author)
+        // Maintenant on peut créer une nouvelle entrée d'un livre et la sauvegarder
+        const newBook = this.bookRepository.create({
+            title : book.title,
+            yearPublished : book.yearPublished,
+            author : author
+        });
+        const returnedBook = this.bookRepository.save(newBook);
+
+        return returnedBook;
     }
 
     public updateBook(id : BookId, data : UpdateBookDto):string {

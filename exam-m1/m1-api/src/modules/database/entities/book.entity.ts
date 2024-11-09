@@ -11,10 +11,10 @@ export class BookEntity extends BaseEntity {
   @Column({ name: 'title', type: 'varchar' })
   title: string;
 
-  @Column({ name: 'year_published', type: 'int' })
+  @Column({ name: 'year_published', type: 'int', nullable : true })
   yearPublished: number;
 
   @ManyToOne(() => AuthorEntity, {nullable:true})
-  @JoinColumn({ name : 'author_id'})
+  @JoinColumn({ name : 'id'})
   author : AuthorEntity
 }

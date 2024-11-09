@@ -22,7 +22,7 @@ export class BookController {
 
     // Crée un (ou plusieurs) livre avec les paramètres passés en paramètres
     @Post()
-    public async createBook(@Body() data : CreateBooksDto) : Promise<string|string[]> {
+    public async createBook(@Body() data : CreateBooksDto) : Promise<BookModel|BookModel[]> {
         // Si on ne crée qu'un livre
         if (data.book){
             return this.bookService.createBook(data.book);

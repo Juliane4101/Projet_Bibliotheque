@@ -4,7 +4,7 @@ import { CreateAuthorDto } from "./author.dto";
 
 @Injectable()
 export class AuthorService {
-    public getAuthor():string {
+    public getAuthors():string {
         return "Ceci est un test";
     }
 

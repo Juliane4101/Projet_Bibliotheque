@@ -1,16 +1,16 @@
 import { IsArray, IsOptional, IsString } from "class-validator";
 
-export class CreateAuthorDto{
+export declare class CreateAuthorDto{
     @IsString()
-    Nom : string;
+    firstName : string;
     @IsString()
-    Prenom : string;
+    lastName : string;
     @IsString()
-    Biographie : string;
+    biography : string;
     @IsString()
-    Chemin_image : string;
+    image_path : string;
     @IsOptional()
     @IsArray()
     bookIds?: string[];
-    
 }
+

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDate, IsInt, IsOptional, IsString } from "class-validator";
+import { IsDate, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 // Auteur lié au livre
 export declare class CreateBookAuthorDto {
@@ -14,6 +14,8 @@ export declare class CreateBookDto {
     @IsString()
     title: string;
     @IsInt()
+    @Max(2024)
+    @Min(-10000)
     yearPublished: number;
     @IsString()
     authorId: string;

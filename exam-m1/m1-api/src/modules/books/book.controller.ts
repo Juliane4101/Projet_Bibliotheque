@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { BookService } from "./book.service";
 import { CreateBooksDto, UpdateBookDto } from "./book.dto";
+import { BookModel } from "./book.model";
 
 @Controller('books')
 export class BookController {
@@ -8,13 +9,13 @@ export class BookController {
 
     // Renvoie la liste complète des livres
     @Get('')
-    public async getBooks(): Promise<string>{
+    public async getBooks(): Promise<BookModel[]>{
         return this.bookService.getBooks()
     }
 
     // Renvoie un livre en fonction de l'id passé en paramètre
     @Get(':id')
-    public async getBookById(@Param('id') id : string): Promise<string> {
+    public async getBookById(@Param('id') id : string): Promise<BookModel> {
         return this.bookService.getBookById(id);
     }
 

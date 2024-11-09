@@ -1,15 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
+import { BookModel } from "./book.model";
 
 
 @Injectable()
 export class BookService {
-    public getBooks():string {
-        return "Ceci est un test";
+    public getBooks():BookModel[] {
+        return [];
     }
 
-    public getBookById(id : string):string {
-        return "Get book "+id;
+    public getBookById(id : string):BookModel|undefined {
+        return undefined;
     }
 
     public createBook(book : CreateBookDto):string {

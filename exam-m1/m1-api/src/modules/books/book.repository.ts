@@ -10,8 +10,8 @@ export class BookRepository {
 
     constructor(private readonly dataSource : DataSource){};
 
-    public getBooks():BookModel[]{
-        return [];
+    public getBooks():Promise<BookModel[]>{
+        return ;
     }
 
     public getBookById(id : string):BookModel|undefined {

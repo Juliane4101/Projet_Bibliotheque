@@ -1,9 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { BookModel } from "./book.model";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
+import { DataSource } from "typeorm";
+import { BookEntity } from "../database/entities/book.entity";
 
 @Injectable()
 export class BookRepository {
+    private readonly bookRepository = this.dataSource.getRepository(BookEntity)
+
+    constructor(private readonly dataSource : DataSource){};
 
     public getBooks():BookModel[]{
         return [];

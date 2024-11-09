@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { BookModel } from "./book.model";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
 import { DataSource } from "typeorm";
-import { BookEntity, BookId } from "../database/entities/book.entity";
+import { BookEntity } from "../database/entities/book.entity";
 import { AuthorEntity } from "../database/entities/author.entity";
 
 @Injectable()

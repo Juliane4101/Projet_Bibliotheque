@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/commo
 import { BookService } from "./book.service";
 import { CreateBooksDto, UpdateBookDto } from "./book.dto";
 import { BookModel } from "./book.model";
-import { BookId } from "../database/entities/book.entity";
 
 @Controller('books')
 export class BookController {
@@ -16,7 +15,7 @@ export class BookController {
 
     // Renvoie un livre en fonction de l'id passé en paramètre
     @Get(':id')
-    public async getBookById(@Param('id') id : BookId): Promise<BookModel> {
+    public async getBookById(@Param('id') id : string): Promise<BookModel> {
         return this.bookService.getBookById(id);
     }
 
@@ -38,13 +37,13 @@ export class BookController {
 
     // Met à jour le livre correspondant à l'id en fonction des paramètres passés
     @Patch(":id")
-    public async updateBook(@Param('id') id : BookId, @Body() data : UpdateBookDto) : Promise<void> {
+    public async updateBook(@Param('id') id : string, @Body() data : UpdateBookDto) : Promise<void> {
         this.bookService.updateBook(id,data);
     }
 
     // Supprime le livre associé à l'id donné
     @Delete(':id')
-    public async deleteBook(@Param('id') id : BookId) : Promise<void> {
+    public async deleteBook(@Param('id') id : string) : Promise<void> {
         this.bookService.deleteBook(id);
     }
 }

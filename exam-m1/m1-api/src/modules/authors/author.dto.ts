@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsArray, IsOptional, IsString } from "class-validator";
 
 export class CreateAuthorDto{
     @IsString()
@@ -7,7 +7,10 @@ export class CreateAuthorDto{
     Prenom : string;
     @IsString()
     Biographie : string;
-    
-    //manque liste de livre et photo
+    @IsString()
+    Chemin_image : string;
+    @IsOptional()
+    @IsArray()
+    bookIds?: string[];
     
 }

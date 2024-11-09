@@ -6,7 +6,7 @@ export type BookId = string & { __brand: 'Book' };
 @Entity('books')
 export class BookEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  book_id: BookId;
+  id: BookId;
 
   @Column({ name: 'title', type: 'varchar' })
   title: string;

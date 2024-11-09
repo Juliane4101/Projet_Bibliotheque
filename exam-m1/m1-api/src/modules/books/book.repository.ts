@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { BookModel } from "./book.model";
 import { CreateBookDto, UpdateBookDto } from "./book.dto";
 import { DataSource } from "typeorm";
-import { BookEntity } from "../database/entities/book.entity";
+import { BookEntity, BookId } from "../database/entities/book.entity";
 
 @Injectable()
 export class BookRepository {
@@ -10,23 +10,25 @@ export class BookRepository {
 
     constructor(private readonly dataSource : DataSource){};
 
-    public getBooks():Promise<BookModel[]>{
-        return ;
+    // On va chercher et renvoyer tous les livres de la BD
+    public async getBooks():Promise<BookModel[]>{
+        return this.bookRepository.find({relations : {author : true}});
     }
 
-    public getBookById(id : string):BookModel|undefined {
-        return undefined;
+    // On va chercher le livre ayant l'id passé en paramètre
+    public async getBookById(id : BookId):Promise<BookModel|undefined> {
+        return await this.bookRepository.findOneOrFail({where : {id}});
     }
 
     public createBook(book : CreateBookDto):string {
         return "Book created";
     }
 
-    public updateBook(id : string, data : UpdateBookDto):string {
+    public updateBook(id : BookId, data : UpdateBookDto):string {
         return "Book updated";
     }
 
-    public deleteBook(id : string) : string {
+    public deleteBook(id : BookId) : string {
         return "Book deleted";
     }
 }

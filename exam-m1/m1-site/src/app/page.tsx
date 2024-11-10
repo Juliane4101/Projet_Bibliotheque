@@ -4,7 +4,9 @@ import './App.css';
 // HomePage.js
 import React, { useEffect, useState } from 'react';
 import {BookRepository} from '../../../m1-api/src/modules/books/book.repository';
-import Header from './Header';  
+import GlobalLayout from '../../../m1-site/src/components/GlobalLayout';
+
+
 
 
 function HomePage() {
@@ -18,12 +20,13 @@ function HomePage() {
   }, []);
 
   return (
+    <GlobalLayout>
     <div>
-      <Header />
       <h1>Bienvenue à la Bibliothèque</h1>
      
       {/* <BookRepository books={books} /> */}
     </div>
+    </GlobalLayout>
   );
 }
 

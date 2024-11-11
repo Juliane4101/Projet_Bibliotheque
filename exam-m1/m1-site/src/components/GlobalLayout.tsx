@@ -2,6 +2,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import './GlobalLayout.css'
+import Breadcrumbs from './Breadcrumbs';
 
 export default function GlobalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -39,6 +41,7 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
         >
           Listes des auteurs
         </button>
+        <Breadcrumbs />
       </header>
       <main style={{ padding: '20px' }}>
         {children}

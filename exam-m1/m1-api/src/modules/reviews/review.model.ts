@@ -3,7 +3,7 @@ export class ReviewModel {
       public id: number,
       public comment: string,
       public rating: number,
-      public bookId: number, 
+      public bookId: string, 
       public date: string,
     ) {}
   }

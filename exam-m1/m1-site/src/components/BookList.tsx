@@ -9,7 +9,7 @@ function BookList() {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortCriteria, setSortCriteria] = useState<string>('title');
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewsData, setReviewsData] = useState<{ [bookId: string]: number }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Récupérer la liste des livres
@@ -20,24 +20,25 @@ function BookList() {
       .catch(error => console.error('Erreur de récupération des livres:', error));
   }, []);
 
-  useEffect(() => {
-    const fetchReviewsAndCalculateAverage = async () => {
-      const reviewsData = await Promise.all(
-        books.map(async (book) => {
-          const reviewsResponse = await fetch(`http://localhost:3001/books/reviews/${book.id}`);
-          const reviews = await reviewsResponse.json();
-          const averageRating = reviews.length
-            ? reviews.reduce((sum: any, review: { rating: any; }) => sum + review.rating, 0) / reviews.length
-            : 0;
-          return { bookId: book.id, reviews, averageRating };
-        })
-      );
-      setReviews(reviewsData);
-    };
-
-    if (books.length > 0) {
-      fetchReviewsAndCalculateAverage();
+  const fetchReviews = async (bookId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3001/reviews/${bookId}`);
+      const data = await response.json();
+      const reviews = data.reviews;
+      const averageRating = reviews.length
+        ? reviews.reduce((sum: number, review: { rating: number }) => sum + review.rating, 0) / reviews.length
+        : 0;
+      setReviewsData(prev => ({ ...prev, [bookId]: averageRating }));
+    } catch (error) {
+      console.error(`Erreur de récupération des avis pour le livre ${bookId}:`, error);
     }
+  };
+
+  useEffect(() => {
+    // Appeler fetchReviews pour chaque livre
+    books.forEach(book => {
+      fetchReviews(book.id);
+    });
   }, [books]);
 
   const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string }) => {
@@ -78,8 +79,7 @@ function BookList() {
 
       <ul>
         {sortedBooks.map((book) => {
-          const bookReviews = reviews.find((review) => review.bookId === book.id)?.reviews || [];
-          const averageRating = reviews.find((review) => review.bookId === book.id)?.averageRating || 0;
+          const averageRating = reviewsData[book.id] || 0;
 
           return (
             <li key={book.id}>

@@ -44,7 +44,7 @@ export class AuthorController {
     return this.authorService.updateAuthor(id, updateData);
   }
 
-  @Get('/book:id')
+  @Get('/book/:id')
   public async getBooksByAuthorId(@Param('id') id : string):Promise<AuthorModel | undefined>{
     return this.authorService.getBooksByAuthorId(id)
   }

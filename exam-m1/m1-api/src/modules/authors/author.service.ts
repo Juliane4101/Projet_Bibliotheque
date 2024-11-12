@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthorModel, CreateAuthorModel } from './author.model';
 import { AuthorRepository} from './author.repository';
 import { CreateAuthorDto } from './author.dto';
-
+import { BookModel } from '../books/book.model';
 @Injectable()
 export class AuthorService {
   constructor(private readonly authorRepository: AuthorRepository) {}
@@ -38,9 +38,11 @@ export class AuthorService {
     author.biography = updateData.biography || author.biography;
     author.image_path = updateData.image_path || author.image_path;
 
-
-
     return this.authorRepository.save(author);
+  }
+
+  public async getBooksByAuthorId(id : string):Promise<AuthorModel | undefined>{
+    return this.authorRepository.getBooksByAuthorId(id)
   }
 
 }

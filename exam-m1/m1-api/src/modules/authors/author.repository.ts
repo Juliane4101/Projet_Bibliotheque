@@ -58,5 +58,10 @@ export class AuthorRepository {
     return this.authorRepository.save(author);  // Utilise le repository pour sauvegarder ou mettre à jour l'auteur
   }
   
-  
+  public async getBooksByAuthorId(id : string):Promise<AuthorModel|undefined> {
+    return this.authorRepository.findOneOrFail({
+        where : {id}, 
+        relations : {books : true}
+    });
+}
 }

@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post,Delete,Param,Patch} from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './author.dto';
 import { AuthorPresenter } from './author.presenter';
+import { AuthorModel } from './author.model';
 
 
 @Controller('/authors')
@@ -41,6 +42,11 @@ export class AuthorController {
     @Body() updateData: CreateAuthorDto,
   ) {
     return this.authorService.updateAuthor(id, updateData);
+  }
+
+  @Get('/book:id')
+  public async getBooksByAuthorId(@Param('id') id : string):Promise<AuthorModel | undefined>{
+    return this.authorService.getBooksByAuthorId(id)
   }
 
   

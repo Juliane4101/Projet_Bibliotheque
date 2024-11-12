@@ -4,6 +4,7 @@ import { BookModel } from '../../../m1-api/src/modules/books/book.model';
 import BookModal from './BookModal';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
+import { useRouter } from 'next/navigation';
 
 function BookList() {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -11,6 +12,7 @@ function BookList() {
   const [sortCriteria, setSortCriteria] = useState<string>('title');
   const [reviewsData, setReviewsData] = useState<{ [bookId: string]: number }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   // Récupérer la liste des livres
   useEffect(() => {
@@ -68,8 +70,11 @@ function BookList() {
     }
     return 0;
   });
-
+  const goToBookDetails = (id: string) => {
+    router.push(`/books/${id}`);
+  };
   return (
+    
     <div>
       <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
       <SortBy sortCriteria={sortCriteria} onSortChange={setSortCriteria} />
@@ -86,9 +91,16 @@ function BookList() {
               <h3>{book.title} - {book.author.firstName} {book.author.lastName} ({book.yearPublished})</h3>
               <div>
                 <strong>Note moyenne : </strong>
-                {averageRating.toFixed(1)} / 5
+                {averageRating.toFixed(1)} / 5 
+                <button
+             onClick={() => goToBookDetails(book.id)}  // Appeler la fonction avec l'id du livre
+             className="bg-blue-500 text-white px-2 py-1 rounded"
+           >
+             Voir Détails
+           </button>
               </div>
             </li>
+            
           );
         })}
       </ul>
@@ -100,8 +112,10 @@ function BookList() {
           onAddBook={handleAddBook} 
         />
       )}
+  
     </div>
   );
-}
+}    
+
 
 export default BookList;

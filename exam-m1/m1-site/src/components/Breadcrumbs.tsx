@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import BreadcrumbStyle from './BreadcrumbStyle';
 
 const translations: { [key: string]: string } = {
   'books': 'Livres',
@@ -14,8 +15,10 @@ const translations: { [key: string]: string } = {
 const Breadcrumbs = () => {
   const pathname = usePathname(); // Récupère l'URL actuelle
   const pathSegments = pathname.split('/').filter(segment => segment); // Divise en segments et filtre les vides
+  
 
   return (
+    <BreadcrumbStyle>
     <nav aria-label="Breadcrumb">
       <ol style={{ display: 'flex', listStyleType: 'none', padding: 0 }}>
         <li>
@@ -37,6 +40,7 @@ const Breadcrumbs = () => {
         })}
       </ol>
     </nav>
+    </BreadcrumbStyle>
   );
 };
 

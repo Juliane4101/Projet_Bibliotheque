@@ -1,41 +1,45 @@
-"use client"
+// src/components/AuthorList.tsx
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
 import SearchBar from './SearchBar';
 import SortBy from './SortBy';
+import AuthorListStyle from './AuthorListStyle'; // Import du style
 
 function AuthorList() {
-  const [authors, setauthors] = useState<AuthorModel[]>([]);
+  const [authors, setAuthors] = useState<AuthorModel[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortCriteria, setSortCriteria] = useState<string>('title'); // Critère de tri, par défaut par titre
+  const [sortCriteria, setSortCriteria] = useState<string>('title');
 
   useEffect(() => {
-    // Appel à l'API pour obtenir la liste des livres
     fetch('http://localhost:3001/authors')
-      .then(response => response.json())
-      .then(data => setauthors(data))
-      .catch(error => console.error('Erreur de récupération des livres:', error));
-  }, []); // Laisser le tableau de dépendances vide pour que l'appel se fasse une seule fois
-
-  
+      .then((response) => response.json())
+      .then((data) => setAuthors(data))
+      .catch((error) => console.error('Erreur de récupération des auteurs:', error));
+  }, []);
 
   return (
-    <div>
-      {/* Barre de recherche */}
-      <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+    <AuthorListStyle> {/* Enveloppe tout le contenu avec le style AuthorListStyle */}
+      <div>
+        <div className="flex space-x-4 mb-4">
+          <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+          <SortBy sortCriteria={sortCriteria} onSortChange={setSortCriteria} />
+        </div>
 
-      {/* Intégrer le composant de tri */}
-      <SortBy sortCriteria={sortCriteria} onSortChange={setSortCriteria} />
+        <h1 className="text-2xl font-semibold mb-4">Liste des auteurs</h1>
 
-      <h1>Liste des livres</h1>
-      <ul>
-        {authors.map((author) => (
-          <li key={author.id}>
-            {author.firstName} - {author.lastName}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul>
+          {authors.map((author) => (
+            <li key={author.id} className="mb-4">
+              <h3 className="text-lg font-bold">
+                {author.firstName} {author.lastName}
+              </h3>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </AuthorListStyle>
   );
 }
 

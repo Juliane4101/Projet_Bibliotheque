@@ -3,6 +3,7 @@
 export type BookModel = {
     id: string;
     title: string;
+    price: number;
     yearPublished: number;
     author: {
       firstName: string;
@@ -20,6 +21,7 @@ export type BookModel = {
   export type CreateBookModel = {
     title: string;
     yearPublished: number;
+    price : number;
     author: CreateBookAuthorModel;
   };
   

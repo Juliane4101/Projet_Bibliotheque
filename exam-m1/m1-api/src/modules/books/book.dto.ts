@@ -1,4 +1,4 @@
-import {IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import {IsInt, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 // Création d'un livre
 export declare class CreateBookDto {
@@ -8,6 +8,8 @@ export declare class CreateBookDto {
     @Max(2024)
     @Min(-10000)
     yearPublished: number;
+    @IsNumber()
+    price: number;
     @IsString()
     authorId: string;
 }

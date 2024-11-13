@@ -4,6 +4,7 @@ export class BookPresenter {
   id: string;
   title: string;
   yearPublished: number;
+  price: number;
   author: {
     firstName: string;
     lastName: string;
@@ -18,6 +19,7 @@ export class BookPresenter {
       id: data.id,
       title: data.title,
       yearPublished : data.yearPublished,
+      price : data.price,
       author : data.author
     });
   }

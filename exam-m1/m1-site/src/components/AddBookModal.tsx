@@ -9,6 +9,7 @@ interface AddBookModalProps {
 function AddBookModal({ author, onClose }: AddBookModalProps) {
   const [title, setTitle] = useState('');
   const [yearPublished, setYearPublished] = useState('');
+  const [price, setPrice] = useState('');
 
   const handleAddBook = () => {
     // On envoie l'ID de l'auteur dans le corps de la requête pour associer le livre à cet auteur
@@ -27,6 +28,7 @@ function AddBookModal({ author, onClose }: AddBookModalProps) {
       <h3>Ajouter un nouveau livre</h3>
       <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre du livre" />
       <input value={yearPublished} onChange={(e) => setYearPublished(e.target.value)} placeholder="Année de publication" />
+      <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Prix" />
       <button onClick={handleAddBook}>Ajouter</button>
       <button onClick={onClose}>Annuler</button>
     </div>

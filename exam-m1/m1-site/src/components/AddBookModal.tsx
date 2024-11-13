@@ -1,38 +1,46 @@
 import React, { useState } from 'react';
+import { BookModel } from '../../../m1-api/src/modules/books/book.model';
 import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
 
 interface AddBookModalProps {
-  author: AuthorModel;  // Accepter un seul auteur, pas un tableau
-  onClose: () => void;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onAddBook : (bookData: { title: string; yearPublished: number; authorId : string; price: number}) => void;
 }
 
-function AddBookModal({ author, onClose }: AddBookModalProps) {
+function AddBookModal({ isModalOpen, setIsModalOpen }: AddBookModalProps) {
   const [title, setTitle] = useState('');
   const [yearPublished, setYearPublished] = useState('');
+ 
   const [price, setPrice] = useState('');
 
-  const handleAddBook = () => {
-    // On envoie l'ID de l'auteur dans le corps de la requête pour associer le livre à cet auteur
-    fetch('http://localhost:3001/books', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, yearPublished, authorId: author.id }),  // Utiliser author.id
-    })
-      .then(response => response.json())
-      .then(() => onClose())
-      .catch(error => console.error('Erreur lors de l’ajout du livre:', error));
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const bookData = {
+      title,
+      yearPublished: parseInt(yearPublished, 10),
+      price: parseInt(price, 10),
+    };
+    onAddBook(bookData);
+    setIsModalOpen(false);
   };
 
   return (
     <div>
       <h3>Ajouter un nouveau livre</h3>
+      <form onSubmit={handleSubmit}>
       <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre du livre" />
       <input value={yearPublished} onChange={(e) => setYearPublished(e.target.value)} placeholder="Année de publication" />
       <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Prix" />
-      <button onClick={handleAddBook}>Ajouter</button>
-      <button onClick={onClose}>Annuler</button>
+      <button type="submit" >Ajouter</button>
+      <button type="button" onClick={() => setIsModalOpen(false)}>Fermer</button>
+      </form>   
     </div>
   );
 }
 
 export default AddBookModal;
+function onAddBook(bookData: { title: string; yearPublished: number; price: number; }) {
+  throw new Error('Function not implemented.');
+}
+

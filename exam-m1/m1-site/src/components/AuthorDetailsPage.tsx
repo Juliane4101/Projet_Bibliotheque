@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
+import { BookModel } from '../../../m1-api/src/modules/books/book.model';
 import AuthorBooksList from './AuthorBooksList';
 import EditAuthorForm from './EditAuthorForm';
 import AddBookModal from './AddBookModal';
@@ -13,15 +14,37 @@ import AuthorDetailsStyle from './AuthorDetailsStyle';
 function AuthorDetailsPage() {
   const { id } = useParams();
   const [author, setAuthor] = useState<AuthorModel | null>(null);
+ const [books, setBooks] = useState<BookModel[]>([]);
+  const [authorbooks, setAuthorBooks] = useState<BookModel[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+
+  const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string }) => {
+    fetch("http://localhost:3001/books", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ book: bookData }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setBooks((prevBooks) => [...prevBooks, data]);
+      })
+      .catch((error) => console.error("Erreur lors de la création du livre:", error));
+  };
   // Récupérer les détails de l'auteur et les livres associés
   useEffect(() => {
     fetch(`http://localhost:3001/authors/${id}`)
       .then((response) => response.json())
       .then((data) => setAuthor(data))
+      .catch((error) => console.error('Erreur lors de la récupération des détails de l\'auteur:', error));
+      fetch(`http://localhost:3001/authors/book/${id}`)
+      .then((response) => response.json())
+      .then((data) => { setAuthorBooks(data.books)
+    console.log(data)})
       .catch((error) => console.error('Erreur lors de la récupération des détails de l\'auteur:', error));
   }, [id]);
 
@@ -68,8 +91,8 @@ function AuthorDetailsPage() {
         </div>
 
         {/* Affichage des livres de l'auteur */}
-        {author.books && author.books.length > 0 ? (
-          <AuthorBooksList books={author.books} />
+        {authorbooks && authorbooks.length > 0 ? (
+          <AuthorBooksList books={authorbooks} />
         ) : (
           <p className="text-gray-500">Aucun livre trouvé pour cet auteur.</p>
         )}
@@ -81,7 +104,7 @@ function AuthorDetailsPage() {
 
         {/* Modale pour ajouter un livre */}
         {isAddBookModalOpen && (
-          <AddBookModal author={author} onClose={() => setIsAddBookModalOpen(false)} />
+          <AddBookModal isModalOpen={isAddBookModalOpen}  setIsModalOpen={setIsAddBookModalOpen} onAddBook={handleAddBook} />
         )}
 
         {/* Modale de confirmation de suppression */}

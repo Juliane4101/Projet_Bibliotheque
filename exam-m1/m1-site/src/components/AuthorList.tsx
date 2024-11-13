@@ -7,10 +7,12 @@ import SearchBar from './SearchBar';
 import SortBy from './SortBy';
 import AuthorListStyle from './AuthorListStyle';
 import { useRouter } from 'next/navigation';
+import AuthorModal from './AuthorModal';
 
 function AuthorList() {
   const [authors, setAuthors] = useState<AuthorModel[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortCriteria, setSortCriteria] = useState<string>('title');
   const router = useRouter();
 
@@ -24,6 +26,20 @@ function AuthorList() {
   const goToAuthorsDetails = (id: string) => {
     router.push(`/authors/${id}`);
   };
+  const handleAddAuthor = (authorData: { firstName: string; lastName : string; biography : string}) => {
+    fetch("http://localhost:3001/authors", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ author: authorData }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAuthors((prevAuthors) => [...prevAuthors, data]);
+      })
+      .catch((error) => console.error("Erreur lors de la création du livre:", error));
+  };
 
   return (
     <AuthorListStyle>
@@ -32,7 +48,14 @@ function AuthorList() {
           <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
           <SortBy sortCriteria={sortCriteria} onSortChange={setSortCriteria} />
         </div>
-
+        <div className="mb-6">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Ajouter un auteur
+          </button>
+        </div>
         <h1 className="text-2xl font-semibold mb-4">Liste des auteurs</h1>
 
         <ul>
@@ -47,12 +70,18 @@ function AuthorList() {
                 Voir Détails
               </button>
               </h3>
-  
+            
             </li>
           ))}
         </ul>
+        {isModalOpen && (
+        <AuthorModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onAddAuthor={handleAddAuthor} />
+        )}
       </div>
+      
     </AuthorListStyle>
+    
+    
   );
 }
 

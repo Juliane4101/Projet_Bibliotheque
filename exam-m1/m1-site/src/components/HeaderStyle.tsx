@@ -2,6 +2,7 @@
 'use client';
 
 import React from 'react';
+import './GlobalLayout.css';
 
 interface HeaderStyleProps {
   children: React.ReactNode; // Pour inclure les boutons ou autres éléments dans le header

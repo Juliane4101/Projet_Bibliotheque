@@ -1,4 +1,5 @@
 import { FC } from "react"
+import './GlobalLayout.css';
 
 type Props = {
   children: string

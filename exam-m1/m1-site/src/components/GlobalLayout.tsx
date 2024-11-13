@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import HeaderStyle from './HeaderStyle'; // Import du composant HeaderStyle
 import Breadcrumbs from './Breadcrumbs';
 import {Button} from './Button'
-import './GlobalLayout.css';
 
 export default function GlobalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

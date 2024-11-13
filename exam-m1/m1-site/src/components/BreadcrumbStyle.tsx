@@ -2,6 +2,7 @@
 'use client';
 
 import React from 'react';
+import './GlobalLayout.css';
 
 interface BreadcrumbsStyleProps {
   children: React.ReactNode;

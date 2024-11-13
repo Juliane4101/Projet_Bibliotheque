@@ -1,6 +1,8 @@
+// src/components/BookDetailsPage.tsx
 "use client";
+
 import React, { useState, useEffect } from 'react';
-import { useParams} from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Button, Modal, Drawer, List, ListItem, Box, Rating } from '@mui/material';
 import { Book, Delete } from '@mui/icons-material';
 import { ReviewModel } from '../../../m1-api/src/modules/reviews/review.model';
@@ -18,21 +20,13 @@ const BookDetailsPage = () => {
   useEffect(() => {
     fetch(`http://localhost:3001/books/${id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setBook(data);
-        
-      })
+      .then((data) => setBook(data))
       .catch((error) => console.error('Erreur lors de la récupération des livres de l\'auteur:', error));
 
-      fetch(`http://localhost:3001/reviews/${id}`)
+    fetch(`http://localhost:3001/reviews/${id}`)
       .then((response) => response.json())
-      .then((data) => {
-        setReviews(data.reviews);
-        console.log(data);
-      })
-      .catch((error) => console.error('Erreur lors de la récupération des livres de l\'auteur:', error));
-
-
+      .then((data) => setReviews(data.reviews))
+      .catch((error) => console.error('Erreur lors de la récupération des avis:', error));
 
     setLoading(false);
   }, [id]);
@@ -57,54 +51,68 @@ const BookDetailsPage = () => {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box className="p-8 bg-gray-50 min-h-screen flex flex-col items-center">
       {loading ? (
-        <p>Chargement...</p>
+        <p className="text-gray-500">Chargement...</p>
       ) : (
         book && (
           <>
-            <h1>{book.title}</h1>
-            
-            <p><strong>Année de publication:</strong> {book.yearPublished}</p>
-            <p>
-              <strong>Auteur:</strong>{" "}
-              <a href ={`http://localhost:3000/authors/${book.author.id}`}>{book.author.firstName} {book.author.lastName}</a>
-            </p>
-            {/* <p><strong>prix:</strong> {book.price}</p> */}
+            <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">{book.title}</h1>
 
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<Delete />}
-              onClick={() => setDeleteModalOpen(true)}
-            >
-              Supprimer
-            </Button>
+            <div className="text-gray-700 text-center mb-4">
+              <p><strong>Année de publication:</strong> {book.yearPublished}</p>
+              <p>
+                <strong>Auteur:</strong>{" "}
+                <a
+                  href={`http://localhost:3000/authors/${book.author.id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  {book.author.firstName} {book.author.lastName}
+                </a>
+              </p>
+            </div>
+
+            <div className="flex space-x-4 mt-4">
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<Delete />}
+                onClick={() => setDeleteModalOpen(true)}
+                className="bg-red-500 text-white hover:bg-red-600 transition"
+              >
+                Supprimer
+              </Button>
+
+              <Button
+                variant="contained"
+                onClick={() => setDrawerOpen(true)}
+                startIcon={<Book />}
+                className="bg-blue-500 text-white hover:bg-blue-600 transition"
+              >
+                Voir les avis
+              </Button>
+            </div>
 
             <Modal open={isDeleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
-              <Box sx={{ padding: 2, backgroundColor: 'white', margin: 'auto', width: '300px', marginTop: '20%' }}>
-                <h3>Êtes-vous sûr de vouloir supprimer ce livre ?</h3>
-                <Button onClick={handleDelete} variant="contained" color="error">Confirmer</Button>
-                <Button onClick={() => setDeleteModalOpen(false)} variant="outlined">Annuler</Button>
+              <Box className="p-6 bg-white rounded-lg shadow-lg mx-auto mt-40 max-w-sm text-center">
+                <h3 className="text-lg font-semibold mb-4">Êtes-vous sûr de vouloir supprimer ce livre ?</h3>
+                <Button onClick={handleDelete} variant="contained" color="error" className="bg-red-500 text-white hover:bg-red-600 mr-2">Confirmer</Button>
+                <Button onClick={() => setDeleteModalOpen(false)} variant="outlined" className="border-gray-300">Annuler</Button>
               </Box>
             </Modal>
 
-            <Button variant="contained" onClick={() => setDrawerOpen(true)} startIcon={<Book />}>
-              Voir les avis
-            </Button>
-
             <Drawer anchor="right" open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
-              <Box sx={{ width: 300, padding: 2 }}>
-                <h2>Avis</h2>
-                <Button onClick={toggleSortOrder}>
+              <Box className="w-80 p-4">
+                <h2 className="text-xl font-bold mb-4">Avis</h2>
+                <Button onClick={toggleSortOrder} className="mb-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                   Trier par date ({sortOrder === 'asc' ? 'ascendant' : 'descendant'})
                 </Button>
                 <List>
                   {reviews && reviews.map((review) => (
-                    <ListItem key={review.id} sx={{ display: 'block', marginBottom: 2 }}>
-                      <Rating value={review.rating} readOnly />
-                      {review.comment && <p>{review.comment}</p>}
-                      <small>{new Date(review.date).toLocaleDateString()}</small>
+                    <ListItem key={review.id} className="border-b border-gray-200 py-2">
+                      <Rating value={review.rating} readOnly className="mb-2" />
+                      {review.comment && <p className="text-gray-700 mb-1">{review.comment}</p>}
+                      <small className="text-gray-500">{new Date(review.date).toLocaleDateString()}</small>
                     </ListItem>
                   ))}
                 </List>
@@ -118,3 +126,4 @@ const BookDetailsPage = () => {
 };
 
 export default BookDetailsPage;
+

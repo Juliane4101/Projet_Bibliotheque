@@ -70,6 +70,7 @@ const BookDetailsPage = () => {
                   {book.author.firstName} {book.author.lastName}
                 </a>
               </p>
+              <p><strong>Prix:</strong> {book.price}€</p>
             </div>
 
             <div className="flex space-x-4 mt-4">

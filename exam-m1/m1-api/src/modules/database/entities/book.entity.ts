@@ -13,6 +13,9 @@ export class BookEntity extends BaseEntity {
   @Column({ name: 'year_published', type: 'int', nullable : true })
   yearPublished: number;
 
+  @Column({ name: 'price', type: 'float' })
+  price: number;
+
   @ManyToOne(() => AuthorEntity, {nullable:true})
   @JoinColumn({ name : 'author_id'})
   author : AuthorEntity

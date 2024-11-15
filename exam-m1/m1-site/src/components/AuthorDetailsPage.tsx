@@ -7,9 +7,12 @@ import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
 import { BookModel } from '../../../m1-api/src/modules/books/book.model';
 import AuthorBooksList from './AuthorBooksList';
 import EditAuthorForm from './EditAuthorForm';
-import AddBookModal from './AddBookModal';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
+import AddBookModal from '../modales/AddBookModal';
+import DeleteConfirmationModal from '../modales/DeleteConfirmationModal';
+
 import AuthorDetailsStyle from './AuthorDetailsStyle';
+import { Button } from './Button';
+import DeleteBookModal from '../modales/DeleteBookModal';
 
 
 function AuthorDetailsPage() {
@@ -20,6 +23,7 @@ function AuthorDetailsPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteBookModalOpen, setDeleteBookModalOpen] = useState(false);
   const [reviewsData, setReviewsData] = useState<{ [bookId: string]: number }>({});
 
   const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string; price: number }) => {
@@ -36,6 +40,19 @@ function AuthorDetailsPage() {
       })
       .catch((error) => console.error("Erreur lors de la création du livre:", error));
   };
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/books/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        setDeleteBookModalOpen(false);
+      }
+    
+    } catch (error) {
+      console.error("Erreur lors de la suppression du livre :", error);
+    }
+  };
+
   // Récupérer les détails de l'auteur et les livres associés
   useEffect(() => {
     fetch(`http://localhost:3001/authors/${id}`)
@@ -81,6 +98,7 @@ useEffect(() => {
       <div className="flex flex-col items-center">
         {/* Affichage du nom de l'auteur et de l'image */}
         <h1 className="text-3xl font-bold text-center mb-4">{author.firstName} {author.lastName}</h1>
+        <p className="text-lg text-gray-700 mb-6">ID : {author.id}</p>
         {/* Affichage du nombre de livres et de la note moyenne */}
         <div className="text-center mb-6">
           <p className="text-lg text-gray-700">
@@ -127,9 +145,13 @@ useEffect(() => {
         {/* Affichage des livres de l'auteur */}
         {authorbooks && authorbooks.length > 0 ? (
           <AuthorBooksList books={authorbooks} />
+          
         ) : (
           <p className="text-gray-500">Aucun livre trouvé pour cet auteur.</p>
         )}
+        {<Button onClick={() => setDeleteBookModalOpen(true)}
+              > Supprimer
+        </Button>}
 
         {/* Formulaire de modification de l'auteur */}
         {isEditMode && (
@@ -138,15 +160,6 @@ useEffect(() => {
 
         {/* Modale pour ajouter un livre */}
        
-{/*          
-          {isAddBookModalOpen && (
-          <AddBookModal
-            authorId={author.id}
-            isModalOpen={isAddBookModalOpen}
-            setIsModalOpen={setIsAddBookModalOpen}
-            onAddBook={ handleAddBook}
-          />
-          )} */}
         {isAddBookModalOpen && (
           <AddBookModal
             authorId={author.id}
@@ -170,6 +183,15 @@ useEffect(() => {
           />
         )}
 
+        {deleteBookModalOpen && authorbooks.map((book) => (
+          <DeleteBookModal
+            key={book.id}
+            book={book}
+            isModalOpen={deleteBookModalOpen}
+            setIsModalOpen={setDeleteBookModalOpen}
+            onClose={() => setDeleteBookModalOpen(false)}
+          />
+        ))}
         {/* Modale de confirmation de suppression */}
         {isDeleteModalOpen && (
           <DeleteConfirmationModal

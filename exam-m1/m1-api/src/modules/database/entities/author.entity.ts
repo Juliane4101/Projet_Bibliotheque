@@ -18,8 +18,8 @@ export class AuthorEntity extends BaseEntity {
   biography: string; 
 
 
-  @Column({name:' path_image', type: 'varchar'})
-  image_path: string; 
+  // @Column({name:' path_image', type: 'varchar'})
+  // image_path: string; 
 
   @OneToMany(() => BookEntity, (book) => book.author, { nullable: true },)
   books: BookEntity[];

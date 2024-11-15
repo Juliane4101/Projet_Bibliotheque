@@ -4,7 +4,7 @@ export type AuthorModel = {
   firstName: string;
   lastName: string;
   biography: string; 
-  image_path: string;
+  // image_path: string;
   books?: BookEntity[]; // Tableau des IDs des livres associés à cet auteur
   };
   
@@ -12,6 +12,6 @@ export type AuthorModel = {
     firstName: string;
     lastName: string;
     biography: string; 
-    image_path: string;
+    // image_path: string;
     books?: BookEntity[]
   };

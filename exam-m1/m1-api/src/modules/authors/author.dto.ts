@@ -27,11 +27,14 @@ export class UpdateAuthorDto {
     @IsString()
     biography?: string;
   
-    @IsOptional()
-    @IsString()
-    image_path?: string;
+    // @IsOptional()
+    // @IsString()
+    // image_path?: string;
   
     @IsOptional()
     @IsArray()
     bookIds?: string[];
   }
+
+
+

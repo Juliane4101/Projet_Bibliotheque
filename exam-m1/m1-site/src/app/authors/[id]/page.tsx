@@ -6,7 +6,6 @@ export default function AuthorsPageId
 () {
   return (
     <GlobalLayout>
-      <h1>Auteurs</h1>
       <AuthorDetailsPage />
     </GlobalLayout>
   );

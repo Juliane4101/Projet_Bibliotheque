@@ -5,7 +5,7 @@
    
 Assurez-vous d’avoir Node.js installé. Clonez le dépôt.
 
-3. Lancement du serveur
+2. Lancement du serveur
    
 Exécutez dans le noyau intégré du fichier m1-api :
 - npm install

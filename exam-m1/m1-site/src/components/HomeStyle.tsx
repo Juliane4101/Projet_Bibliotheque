@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface HomeStyleProps {
-  children: React.ReactNode; // Le contenu à afficher, comme la page d'accueil
+  children: React.ReactNode; 
 }
 
 const HomeStyle: React.FC<HomeStyleProps> = ({ children }) => {

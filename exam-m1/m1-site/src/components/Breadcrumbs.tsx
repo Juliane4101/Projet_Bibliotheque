@@ -1,4 +1,3 @@
-// src/components/Breadcrumbs.tsx
 'use client';
 
 import Link from 'next/link';
@@ -10,7 +9,6 @@ const translations: { [key: string]: string } = {
   books: 'Livres',
   authors: 'Auteurs',
   home: 'Accueil',
-  // Ajoutez d'autres traductions ici si nécessaire
 };
 
 const Breadcrumbs = () => {
@@ -48,7 +46,7 @@ const Breadcrumbs = () => {
         <ol className="flex list-none p-0 space-x-2">
           <li>
             <Link href="/">{translations['home']}</Link>
-            <span> &gt; </span> {/* Utilise ">" comme séparateur */}
+            <span> &gt; </span>
           </li>
           {pathSegments.map((segment, index) => {
             const href = '/' + pathSegments.slice(0, index + 1).join('/');
@@ -60,7 +58,7 @@ const Breadcrumbs = () => {
                 <Link href={href}>
                   {decodeURIComponent(translatedSegment.charAt(0).toUpperCase() + translatedSegment.slice(1))}
                 </Link>
-                {index < pathSegments.length - 1 && <span> &gt; </span>} {/* Utilise ">" comme séparateur */}
+                {index < pathSegments.length - 1 && <span> &gt; </span>}
               </li>
             );
           })}

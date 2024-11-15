@@ -1,4 +1,3 @@
-// src/components/AuthorDetailsStyle.tsx
 'use client';
 
 import React from 'react';

@@ -1,12 +1,11 @@
-// src/components/BookList.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import { BookModel } from "../../../m1-api/src/modules/books/book.model";
-import BookModal from "./BookModal";
+import BookModal from "../modales/BookModal";
 import SearchBar from "./SearchBar";
 import SortBy from "./SortBy";
 import { useRouter } from "next/navigation";
-import BookListStyle from "./BookListStyle"; // Import du fichier de style
+import BookListStyle from "./BookListStyle";
 
 function BookList() {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -81,9 +80,8 @@ function BookList() {
   };
 
   return (
-    <BookListStyle> {/* Enveloppe tout le contenu avec le style BookListStyle */}
+    <BookListStyle> 
       <div>
-        {/* Conteneur pour la barre de recherche et "Trier par" sur la même ligne */}
         <div className="flex space-x-4 mb-4">
           <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
           <SortBy sortCriteria={sortCriteria} onSortChange={setSortCriteria} />
@@ -91,7 +89,6 @@ function BookList() {
 
         <h1 className="text-2xl font-semibold mb-4">Liste des livres</h1>
 
-        {/* Section Ajouter un livre avec une marge au-dessus */}
         <div className="mb-6">
           <button
             onClick={() => setIsModalOpen(true)}

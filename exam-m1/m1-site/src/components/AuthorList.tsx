@@ -6,7 +6,7 @@ import SearchBar from './SearchBar';
 
 import AuthorListStyle from './AuthorListStyle';
 import { useRouter } from 'next/navigation';
-import AuthorModal from './AuthorModal';
+import AuthorModal from '../modales/AuthorModal';
 
 function AuthorList() {
   const [authors, setAuthors] = useState<AuthorModel[]>([]);

@@ -1,25 +1,22 @@
-// src/components/HeaderStyle.tsx
 'use client';
 
 import React from 'react';
 import './GlobalLayout.css';
 
 interface HeaderStyleProps {
-  children: React.ReactNode; // Pour inclure les boutons ou autres éléments dans le header
+  children: React.ReactNode; 
 }
 
 const HeaderStyle: React.FC<HeaderStyleProps> = ({ children }) => {
-  // Classes Tailwind pour le header et le titre
-  const headerClasses = "bg-gray-800 text-white p-4"; // Style par défaut pour le header
-  const titleClasses = "text-2xl font-bold text-center mb-2"; // Style pour le titre
+  const headerClasses = "bg-gray-800 text-white p-4"; 
+  const titleClasses = "text-2xl font-bold text-center mb-2"; 
   const buttonGroupClasses = "flex space-x-4 justify-center";
 
   return (
     <header className={headerClasses}>
-      {/* Titre fixe "Ma Bibliothèque" */}
       <h1 className={titleClasses}>Ma Bibliothèque</h1>
       <div className={buttonGroupClasses}>
-        {children} {/* Affiche les enfants passés au composant, ici les boutons */}
+        {children}
       </div>
     </header>
   );

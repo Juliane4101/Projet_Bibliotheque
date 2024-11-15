@@ -38,7 +38,6 @@ const BookDetailsPage = () => {
       const response = await fetch(`http://localhost:3001/books/${id}`, { method: 'DELETE' });
       if (response.ok) {
         setDeleteModalOpen(false);
-        // Redirection après la suppression si nécessaire
       }
     
     } catch (error) {

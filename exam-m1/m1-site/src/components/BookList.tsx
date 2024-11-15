@@ -48,7 +48,7 @@ function BookList() {
     });
   }, [books]);
 
-  const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string }) => {
+  const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string; price: number }) => {
     fetch("http://localhost:3001/books", {
       method: "POST",
       headers: {

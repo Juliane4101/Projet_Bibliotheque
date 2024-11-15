@@ -1,17 +1,17 @@
+"use client";
 import React, { useState } from 'react';
-import { BookModel } from '../../../m1-api/src/modules/books/book.model';
-import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
+
 
 interface AddBookModalProps {
+  authorId: string;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onAddBook : (bookData: { title: string; yearPublished: number; authorId : string; price: number}) => void;
 }
 
-function AddBookModal({ isModalOpen, setIsModalOpen }: AddBookModalProps) {
+function AddBookModal({ isModalOpen, setIsModalOpen, authorId, onAddBook }: AddBookModalProps) {
   const [title, setTitle] = useState('');
   const [yearPublished, setYearPublished] = useState('');
- 
   const [price, setPrice] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,6 +19,7 @@ function AddBookModal({ isModalOpen, setIsModalOpen }: AddBookModalProps) {
     const bookData = {
       title,
       yearPublished: parseInt(yearPublished, 10),
+      authorId,
       price: parseInt(price, 10),
     };
     onAddBook(bookData);
@@ -40,7 +41,5 @@ function AddBookModal({ isModalOpen, setIsModalOpen }: AddBookModalProps) {
 }
 
 export default AddBookModal;
-function onAddBook(bookData: { title: string; yearPublished: number; price: number; }) {
-  throw new Error('Function not implemented.');
-}
+
 

@@ -11,6 +11,7 @@ import AddBookModal from './AddBookModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import AuthorDetailsStyle from './AuthorDetailsStyle';
 
+
 function AuthorDetailsPage() {
   const { id } = useParams();
   const [author, setAuthor] = useState<AuthorModel | null>(null);
@@ -19,15 +20,15 @@ function AuthorDetailsPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [reviewsData, setReviewsData] = useState<{ [bookId: string]: number }>({});
 
-
-  const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string }) => {
+  const handleAddBook = (bookData: { title: string; yearPublished: number; authorId: string; price: number }) => {
     fetch("http://localhost:3001/books", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ book: bookData }),
+      body: JSON.stringify({ book : bookData }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -43,19 +44,52 @@ function AuthorDetailsPage() {
       .catch((error) => console.error('Erreur lors de la récupération des détails de l\'auteur:', error));
       fetch(`http://localhost:3001/authors/book/${id}`)
       .then((response) => response.json())
-      .then((data) => { setAuthorBooks(data.books)
-    console.log(data)})
+      .then((data) => { setAuthorBooks(data.books)})
       .catch((error) => console.error('Erreur lors de la récupération des détails de l\'auteur:', error));
   }, [id]);
 
-  if (!author) return <p>Chargement...</p>;
+  const fetchReviews = async (bookId: string) => {
+    try {
+      const response = await fetch(`http://localhost:3001/reviews/${bookId}`);
+      const data = await response.json();
+      const reviews = data.reviews;
+      const averageRating = reviews.length
+        ? reviews.reduce((sum: number, review: { rating: number }) => sum + review.rating, 0) / reviews.length
+        : 0;
+      
+      setReviewsData((prev) => ({ ...prev, [bookId]: averageRating }));
+      
+    } catch (error) {
+      console.error(`Erreur de récupération des avis pour le livre ${bookId}:`, error);
+    }
+  };
+useEffect(() => {
+  // Appeler fetchReviews pour chaque livre
+  authorbooks.forEach((book) => {
+    fetchReviews(book.id);
+  });
+}, [authorbooks]);
 
+  if (!author) return <p>Chargement...</p>;
+  
+  const averageRating = authorbooks.length
+    ? authorbooks.reduce((sum, book) => sum + (reviewsData[book.id] || 0), 0) / authorbooks.length
+    : 0;
   return (
     <AuthorDetailsStyle>
+      
       <div className="flex flex-col items-center">
         {/* Affichage du nom de l'auteur et de l'image */}
         <h1 className="text-3xl font-bold text-center mb-4">{author.firstName} {author.lastName}</h1>
-        
+        {/* Affichage du nombre de livres et de la note moyenne */}
+        <div className="text-center mb-6">
+          <p className="text-lg text-gray-700">
+            Nombre de livres: {authorbooks.length}
+          </p>
+          <p className="text-lg text-gray-700">
+            Note moyenne: {averageRating}
+          </p>
+        </div>
         {/* Image de l'auteur */}
         <img
           //src={author.image_path || '/default-avatar.png'}
@@ -103,8 +137,37 @@ function AuthorDetailsPage() {
         )}
 
         {/* Modale pour ajouter un livre */}
+       
+{/*          
+          {isAddBookModalOpen && (
+          <AddBookModal
+            authorId={author.id}
+            isModalOpen={isAddBookModalOpen}
+            setIsModalOpen={setIsAddBookModalOpen}
+            onAddBook={ handleAddBook}
+          />
+          )} */}
         {isAddBookModalOpen && (
-          <AddBookModal isModalOpen={isAddBookModalOpen}  setIsModalOpen={setIsAddBookModalOpen} onAddBook={handleAddBook} />
+          <AddBookModal
+            authorId={author.id}
+            isModalOpen={isAddBookModalOpen}
+            setIsModalOpen={setIsAddBookModalOpen}
+            onAddBook={(bookData) => {
+              handleAddBook(bookData);
+              setIsAddBookModalOpen(false);
+              // Refresh the author books list after adding a new book
+              fetch(`http://localhost:3001/authors/book/${id}`)
+                .then((response) => response.json())
+                .then((data) => setAuthorBooks(data.books))
+                .catch((error) => console.error('Erreur lors de la récupération des détails de l\'auteur:', error)); 
+                authorbooks.forEach((book) => {
+                  fetchReviews(book.id);
+                });
+            }}
+            
+            // Refresh the reviews after adding a new book
+           
+          />
         )}
 
         {/* Modale de confirmation de suppression */}

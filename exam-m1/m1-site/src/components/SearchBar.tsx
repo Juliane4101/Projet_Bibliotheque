@@ -10,7 +10,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, onSearchChange }) =>
     <div>
       <input
         type="text"
-        placeholder="Rechercher un livre..."
+        placeholder="Rechercher"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)} // Met à jour la query
       />

@@ -1,9 +1,7 @@
-// src/components/BookDetailsPage.tsx
 "use client";
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Button, Modal, Drawer, List, ListItem, Box, Rating } from '@mui/material';
+import { Button, Modal, Drawer, List, ListItem, Box, Rating, TextField } from '@mui/material';
 import { Book, Delete } from '@mui/icons-material';
 import { ReviewModel } from '../../../m1-api/src/modules/reviews/review.model';
 import { BookModel } from '../../../m1-api/src/modules/books/book.model';
@@ -16,6 +14,10 @@ const BookDetailsPage = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('asc');
   const [loading, setLoading] = useState(true);
+
+  // États pour la notation et le commentaire
+  const [rating, setRating] = useState<number | null>(null);
+  const [comment, setComment] = useState<string>(''); // Champ de commentaire
 
   useEffect(() => {
     fetch(`http://localhost:3001/books/${id}`)
@@ -38,6 +40,7 @@ const BookDetailsPage = () => {
         setDeleteModalOpen(false);
         // Redirection après la suppression si nécessaire
       }
+    
     } catch (error) {
       console.error("Erreur lors de la suppression du livre :", error);
     }
@@ -47,6 +50,30 @@ const BookDetailsPage = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     if (reviews) {
       setReviews([...reviews].reverse());
+    }
+  };
+
+  const handleRatingSubmit = async () => {
+    if (rating !== null) {
+      try {
+        // Ajouter l'avis avec bookId, rating et comment
+        const response = await fetch(`http://localhost:3001/reviews`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ bookId: id, rating, comment, date: new Date() }),
+        });
+        if (response.ok) {
+          const newReview = await response.json();
+          newReview.date = new Date(newReview.date);
+          setReviews((prevReviews) => (prevReviews ? [...prevReviews, newReview] : [newReview]));
+          setRating(null);  // Réinitialiser la note après soumission
+          setComment('');   // Réinitialiser le commentaire après soumission
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout de la note :', error);
+      }
     }
   };
 
@@ -72,6 +99,41 @@ const BookDetailsPage = () => {
               </p>
               <p><strong>Prix:</strong> {book.price}€</p>
             </div>
+
+            <Button
+              variant="contained"
+              onClick={() => setDrawerOpen(true)}
+              startIcon={<Book />}
+              className="bg-blue-500 text-white hover:bg-blue-600 transition"
+            >
+              Voir les avis
+            </Button>
+
+            {/* Formulaire pour évaluer le livre avec une note et un commentaire */}
+            <Rating
+              name="book-rating"
+              value={rating}
+              onChange={(event, newValue) => setRating(newValue)}
+              className="mt-4"
+            />
+            <TextField
+              label="Ajouter un commentaire"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+              className="mt-4"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleRatingSubmit}
+              className="bg-green-500 text-white hover:bg-green-600 transition mt-2"
+            >
+              Noter le livre
+            </Button>
 
             <div className="flex space-x-4 mt-4">
               <Button
@@ -127,4 +189,3 @@ const BookDetailsPage = () => {
 };
 
 export default BookDetailsPage;
-

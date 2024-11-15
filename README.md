@@ -10,7 +10,7 @@ Exécutez dans le noyau intégré du fichier m1-api :
 - npm run start (ou npm start:dev)
 
 3. Lancement du projet
-Pour lancer le projet en mode développement :
+Pour lancer le projet en mode développemen, exécutez dans le noyau intégré du fichier m1-site  :
 - npm install
 - npm run dev
 

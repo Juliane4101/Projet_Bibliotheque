@@ -2,8 +2,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import './GlobalLayout.css'
+import HeaderStyle from './HeaderStyle'; // Import du composant HeaderStyle
 import Breadcrumbs from './Breadcrumbs';
+import {Button} from './Button'
 
 export default function GlobalLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -20,33 +21,28 @@ export default function GlobalLayout({ children }: { children: React.ReactNode }
     router.push('/authors');
   };
 
+
   return (
     <div>
-      <header style={{ padding: '1rem', backgroundColor: '#f4f4f4', borderBottom: '1px solid #ddd' }}>
-        <button
-          onClick={goToHomePage}
-          style={{ padding: '0.5rem 1rem', cursor: 'pointer', marginRight: '10px' }}
-        >
-          Accueil
-        </button>
-        <button
-          onClick={goToBooksPage}
-          style={{ padding: '0.5rem 1rem', cursor: 'pointer', marginRight: '10px' }}
-        >
-          Listes des livres 
-        </button>
-        <button
-          onClick={goToAuthorsPage}
-          style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}
-        >
-          Listes des auteurs
-        </button>
-        <Breadcrumbs />
-      </header>
-      <main style={{ padding: '20px' }}>
+      {/* Utilisation de HeaderStyle sans condition sur router.pathname */}
+  
+      <HeaderStyle>
+        <Button onClick={goToHomePage}>Accueil</Button>
+        <Button onClick={goToBooksPage}>Liste des livres</Button>
+        <Button onClick={goToAuthorsPage}>Liste des auteurs</Button>
+      </HeaderStyle>
+
+      {/* Breadcrumbs */}
+      <div>
+        <Breadcrumbs  />
+      </div>
+
+      {/* Contenu principal */}
+      <main>
         {children}
       </main>
     </div>
   );
 }
+
 

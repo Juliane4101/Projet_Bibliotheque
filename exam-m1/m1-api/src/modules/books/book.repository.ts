@@ -34,6 +34,7 @@ export class BookRepository {
         const newBook = this.bookRepository.create({
             title : book.title,
             yearPublished : book.yearPublished,
+            price : book.price,
             author : author
         });
         const returnedBook = this.bookRepository.save(newBook);

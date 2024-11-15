@@ -5,7 +5,9 @@
 Assurez-vous d’avoir Node.js installé. Clonez le dépôt, puis exécutez :
 
 npm install
+
 npm i @mui/material
+
 npm i @mui/icons-material
 
 2. Lancement du projet

@@ -37,6 +37,7 @@ function AuthorList() {
       .then((response) => response.json())
       .then((data) => {
         setAuthors((prevAuthors) => [...prevAuthors, data]);
+        console.log(data);
       })
       .catch((error) => console.error("Erreur lors de la création du livre:", error));
   };
@@ -62,7 +63,7 @@ function AuthorList() {
           {authors.map((author) => (
             <li key={author.id} className="mb-4">
               <h3 className="text-lg font-bold">
-                {author.firstName} {author.lastName}
+                {author.firstName} {author.lastName} {author.id}
                 <button
                 onClick={() => goToAuthorsDetails(author.id)}
                 className="m-5 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mt-2"

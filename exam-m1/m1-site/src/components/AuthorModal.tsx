@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 interface AuthorModalProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onAddAuthor: (authorData: { firstName: string; lastName: string; biography: string}) => void;
+  onAddAuthor: (authorData: { firstName: string; lastName: string; biography: string;}) => void;
 }
 
 function AuthorModal({ isModalOpen, setIsModalOpen, onAddAuthor }: AuthorModalProps) {
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
   const [biography, setbiography] = useState('');
-  
+ 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

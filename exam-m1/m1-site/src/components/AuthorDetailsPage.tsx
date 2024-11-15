@@ -14,7 +14,7 @@ import AuthorDetailsStyle from './AuthorDetailsStyle';
 function AuthorDetailsPage() {
   const { id } = useParams();
   const [author, setAuthor] = useState<AuthorModel | null>(null);
- const [books, setBooks] = useState<BookModel[]>([]);
+  const [, setBooks] = useState<BookModel[]>([]);
   const [authorbooks, setAuthorBooks] = useState<BookModel[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
@@ -58,7 +58,7 @@ function AuthorDetailsPage() {
         
         {/* Image de l'auteur */}
         <img
-          src={author.image_path || '/default-avatar.png'}
+          //src={author.image_path || '/default-avatar.png'}
           alt={`${author.firstName} ${author.lastName}`}
           className="w-40 h-40 object-cover rounded-full mb-6 shadow-lg"
         />

@@ -20,7 +20,6 @@ function AddAuthorModal({ isModalOpen, setIsModalOpen }: AddAuthorModalProps) {
       biography,
     };
     onAddAuthor(authorData);
-    console.log(authorData);
     setIsModalOpen(false);
   };
 

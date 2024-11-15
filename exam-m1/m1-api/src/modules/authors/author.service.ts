@@ -36,7 +36,7 @@ export class AuthorService {
     author.firstName = updateData.firstName || author.firstName;
     author.lastName = updateData.lastName || author.lastName;
     author.biography = updateData.biography || author.biography;
-    author.image_path = updateData.image_path || author.image_path;
+    // author.image_path = updateData.image_path || author.image_path;
 
     return this.authorRepository.save(author);
   }

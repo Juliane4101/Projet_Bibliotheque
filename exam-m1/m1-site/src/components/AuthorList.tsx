@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { AuthorModel } from '../../../m1-api/src/modules/authors/author.model';
 import SearchBar from './SearchBar';
-
 import AuthorListStyle from './AuthorListStyle';
 import { useRouter } from 'next/navigation';
 import AuthorModal from '../modales/AuthorModal';

@@ -32,7 +32,7 @@ function AuthorList() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ author: authorData }),
+      body: JSON.stringify(authorData),
     })
       .then((response) => response.json())
       .then((data) => {

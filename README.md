@@ -22,4 +22,4 @@ Ensuite, ouvrez http://localhost:3000 pour voir l’application.
 4. Choses à savoir 
 - Lorsque vous ajoutez un livre depuis la page auteur, actualisez la page pour qu'il s'affiche
 - Lorsque vous supprimez un livre depuis sa page de détail, retournez à l'url : http://localhost:3000/books
-- Problème avec les photos (mauvaise gestion)
+- Problème avec les images (mauvaise gestion)

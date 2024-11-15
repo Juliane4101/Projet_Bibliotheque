@@ -2,7 +2,7 @@
 
 🛠️ Configuration du projet
 1. Installation des dépendances
-Assurez-vous d’avoir Node.js installé. Clonez le dépôt, puis exécutez :
+Assurez-vous d’avoir Node.js installé. Clonez le dépôt, puis exécutez dans le noyau intégré du fichier m1-site :
 
 npm install
 

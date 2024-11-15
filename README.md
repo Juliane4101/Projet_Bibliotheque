@@ -2,13 +2,10 @@
 
 🛠️ Configuration du projet
 1. Installation des dépendances
-Assurez-vous d’avoir Node.js installé. Clonez le dépôt, puis exécutez dans le noyau intégré du fichier m1-site :
+Assurez-vous d’avoir Node.js installé. Clonez le dépôt, puis exécutez dans le noyau intégré du fichier m1-api :
 
-npm install
+npm start (ou npm start:dev)
 
-npm i @mui/material
-
-npm i @mui/icons-material
 
 2. Lancement du projet
 Pour lancer le projet en mode développement :

@@ -7,7 +7,7 @@ Assurez-vous d’avoir Node.js installé. Clonez le dépôt.
 2. Lancement du serveur
 Exécutez dans le noyau intégré du fichier m1-api :
 - npm install
-- npm run start (ou npm start:dev)
+- npm run start (ou npm run start:dev)
 
 3. Lancement du projet
 Pour lancer le projet en mode développemen, exécutez dans le noyau intégré du fichier m1-site  :

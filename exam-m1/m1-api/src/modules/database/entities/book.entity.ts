@@ -13,7 +13,7 @@ export class BookEntity extends BaseEntity {
   @Column({ name: 'year_published', type: 'int', nullable : true })
   yearPublished: number;
 
-  @Column({ name: 'price', type: 'float' })
+  @Column({ name: 'price', type: 'float', nullable : true })
   price: number;
 
   @ManyToOne(() => AuthorEntity, {nullable:true})
